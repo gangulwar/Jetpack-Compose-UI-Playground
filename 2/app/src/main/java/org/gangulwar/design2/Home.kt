@@ -10,8 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -97,7 +101,7 @@ fun Home() {
             }
 
             Column(
-                modifier = Modifier.padding(35.dp)
+                modifier = Modifier.padding(25.dp)
             ) {
 
                 Text(
@@ -138,20 +142,57 @@ fun Home() {
                     shape = RoundedCornerShape(15.dp),
                     leadingIcon = {
                         Image(
-                            modifier=Modifier.size(25.dp),
+                            modifier = Modifier.size(25.dp),
                             painter = painterResource(id = R.drawable.search),
                             contentDescription = null
                         )
                     }, trailingIcon = {
                         Image(
-                            modifier=Modifier.size(25.dp),
+                            modifier = Modifier.size(25.dp),
                             painter = painterResource(id = R.drawable.filters),
                             contentDescription = null
                         )
                     }
                 )
+
+                MainCategory()
+
             }
         }
+    }
+}
+
+@Composable
+fun MainCategory() {
+    val items = listOf(
+        Category("Home",R.drawable.home_sel,R.drawable.home_desel),
+        Category("Flat",R.drawable.flat_sel,R.drawable.flat_desel),
+        Category("Keys",R.drawable.key_sel,R.drawable.key_desel),
+        Category("Promo",R.drawable.promo_sel,R.drawable.promo_desel)
+    )
+
+    LazyRow {
+        items(items) { item ->
+            CardItem(item)
+        }
+    }
+}
+
+data class Category(val categoryName: String, val selDrawableID: Int, val deselDrawableID: Int)
+
+@Composable
+fun CardItem(category: Category) {
+    Card(
+        modifier = Modifier.padding(end = 3.dp)
+            .size(85.dp,100.dp)
+
+    ) {
+
+        Text(
+            text = category.categoryName,
+            modifier = Modifier.padding(16.dp),
+            style = TextStyle(fontSize = 18.sp)
+        )
     }
 }
 
@@ -161,7 +202,5 @@ fun Home() {
 )
 @Composable
 fun Preview1() {
-    // val navController = rememberNavController()
-    //BottomNavigationBar(navController = navController)
     Home()
 }
