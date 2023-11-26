@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="login_screen_bg">#46D0D9</color>
     <color name="font_color">#13497B</color>
+    <color name="light_font">#8A9BAB</color>
 </resources>
