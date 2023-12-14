@@ -1,8 +1,10 @@
 package org.gangulwar.design2
 
+import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.DrawableContainer
 import android.view.Surface
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,6 +37,7 @@ import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -47,12 +50,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterStart
+import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -60,11 +66,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Home() {
+fun Home(navController: NavController, onClick: () -> Unit) {
 
+//    val activity = LocalView.current.context as Activity
+//    val backgroundArgb = Color.White.toArgb()
+//    activity.window.statusBarColor = backgroundArgb
 //    Box(
 //        modifier = Modifier
 //            .fillMaxSize()
@@ -147,9 +158,9 @@ fun Home() {
 
                     painter = painterResource(id = R.drawable.settings),
                     contentDescription = null,
-                    Modifier.padding(end = 20.dp)
-                        .size(23.dp)
-                        ,
+                    Modifier
+                        .padding(end = 20.dp)
+                        .size(23.dp),
                     alignment = CenterEnd
                 )
             }
@@ -191,18 +202,23 @@ fun Home() {
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.White,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent
+                        focusedIndicatorColor = Color.Transparent,
+                        textColor = Color(19, 73, 123, 154)
                     ),
                     shape = RoundedCornerShape(15.dp),
                     leadingIcon = {
                         Image(
-                            modifier = Modifier.size(25.dp),
+                            modifier = Modifier
+                                .padding(start = 10.dp)
+                                .size(25.dp),
                             painter = painterResource(id = R.drawable.search),
                             contentDescription = null
                         )
                     }, trailingIcon = {
                         Image(
-                            modifier = Modifier.size(25.dp),
+                            modifier = Modifier
+                                .padding(end = 10.dp)
+                                .size(25.dp),
                             painter = painterResource(id = R.drawable.filters),
                             contentDescription = null
                         )
@@ -317,6 +333,8 @@ fun HomeInfoCard(info: HomeInfo) {
             contentScale = ContentScale.FillBounds
         )
 
+
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -428,7 +446,7 @@ fun HomeInfoCard(info: HomeInfo) {
                     Text(
                         modifier = Modifier
                             .padding(start = 10.dp)
-                            .alpha(0.2f),
+                            .alpha(0.3f),
                         text = "${info.opinions} opinions", style = TextStyle(
                             fontFamily = rubikLight,
                             fontSize = 9.sp,
@@ -508,18 +526,65 @@ fun HomeInfoCard(info: HomeInfo) {
             }
         }
 
-        Image(
-            painter = painterResource(id = R.drawable.heart_icon),
-            contentDescription = null,
-            modifier = Modifier
-                .size(40.dp)
+//        Surface(
+//            modifier = Modifier
+//                .offset(x = 100.dp, y = 55.dp)
 //                .clip(CircleShape)
-                .align(Alignment.TopEnd)
-                .offset(x = (-35).dp, y = 200.dp)
-                .background(Color.White, CircleShape)
-                .shadow(1.dp, CircleShape)
-                .padding(10.dp)
+////                .size(50.dp)
+//                .background(
+//                    Color.Transparent
+//                )
+//                ,shadowElevation = 5.dp
+//        )
+        Card(
+            modifier = Modifier
+
+                .offset(x = 110.dp, y = 55.dp)
+                .size(50.dp)
+                .clip(CircleShape)
+                .background(
+                    Color.White
+                ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 10.dp
+            )
+//
+
         )
+        {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+//                    .offset(x = 100.dp, y = 55.dp)
+
+                    .background(Color.White)
+                    .shadow(
+                        elevation = 50.dp,
+                        shape = CircleShape,
+                        ambientColor = Color(185, 185, 185, 255),
+                        spotColor = Color(185, 185, 185, 255),
+                        clip = false
+                    ),
+//                .shadow(elevation = 3.dp, shape = CircleShape)
+
+            ) {
+                Image(
+                    painter = painterResource(
+                        id = R.drawable.heart_icon
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(40.dp)
+//                .clip(CircleShape)
+                        .align(Alignment.Center)
+//                    .offset(x = (-35).dp, y = 200.dp)
+//                    .background(Color.White, CircleShape)
+//                    .shadow(1.dp, CircleShape)
+                        .padding(10.dp)
+                )
+            }
+        }
         /*
 //        Box(
 //            modifier = Modifier
@@ -545,8 +610,43 @@ fun HomeInfoCard(info: HomeInfo) {
 //        }
     }*/
 
-        Card() {
+        Card(
+            modifier = Modifier
+//                .width(200.dp)
+//                .height(50.dp)
+                .padding(25.dp)
+                .align(TopStart)
+        ) {
+            Row(
+                modifier = Modifier
+                    .background(
+                        shape = RoundedCornerShape(25.dp),
+                        color = Color.White
+                    )
+                    .padding(top = 5.dp, bottom = 5.dp, start = 10.dp, end = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                Image(
+                    modifier = Modifier.size(
+                        width = 10.dp,
+                        height = 13.dp
+                    ),
+                    painter = painterResource(id = R.drawable.location_pin),
+                    contentDescription = null
+                )
 
+                Text(
+                    modifier = Modifier.padding(start = 10.dp),
+                    text = info.location,
+                    style = TextStyle(
+                        fontFamily = rubikLight,
+                        fontSize = 11.sp,
+                        color = Color.Black,
+                        textAlign = TextAlign.Center
+                    )
+                )
+            }
         }
     }
 }
@@ -643,5 +743,5 @@ fun DeselectedCard(category: Category, onCardClick: () -> Unit) {
 )
 @Composable
 fun Preview1() {
-    Home()
+    Home(navController = rememberNavController()) {}
 }

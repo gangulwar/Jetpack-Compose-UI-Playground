@@ -1,5 +1,6 @@
 package org.gangulwar.design2
 
+import android.app.Activity
 import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,8 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalMapOf
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -49,6 +52,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 val rubikRegular = FontFamily(
     Font(R.font.rubik_regular)
@@ -63,8 +69,12 @@ val rubikMedium = FontFamily(
 )
 
 @Composable
-fun LoginScreen() {
-
+fun LoginScreen(
+    navHostController: NavController, onClick: () -> Unit
+) {
+    val activity = LocalView.current.context as Activity
+    val backgroundArgb = colorResource(id = R.color.login_screen_bg).toArgb()
+    activity.window.statusBarColor = backgroundArgb
 
     Box(
         modifier = Modifier
@@ -85,14 +95,14 @@ fun LoginScreen() {
                 alignment = Alignment.Center,
             )
 
-            Login()
+            Login(onClick)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Login() {
+fun Login(onClick: () -> Unit) {
 
     var text by remember { mutableStateOf("mauricio@divelement.io") }
     var password by remember { mutableStateOf("123456789") }
@@ -232,7 +242,7 @@ fun Login() {
             )
 
             TextButton(
-                onClick = { },
+                onClick = onClick,
                 modifier = Modifier
                     .padding(top = 35.dp, start = 25.dp, end = 25.dp)
                     .fillMaxWidth()
@@ -287,7 +297,9 @@ fun InputTextField(isEmail: Boolean) {
 )
 @Composable
 fun Preview() {
-    LoginScreen()
+    LoginScreen(rememberNavController()){
+
+    }
 //    BottomNavigationScreen(navController)
-   // BottomNavigationBar(navController)
+    // BottomNavigationBar(navController)
 }

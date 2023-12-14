@@ -24,9 +24,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.rememberNavController
 import org.gangulwar.design2.ui.theme.Design2Theme
-
-
 
 
 class MainActivity : ComponentActivity() {
@@ -36,15 +35,13 @@ class MainActivity : ComponentActivity() {
 //        val window = window
 //        window.statusBarColor = R.color.black
         setContent {
-            MyComposable()
+           //MyComposable()
+            RootNavigationGraph(rememberNavController())
         }
     }
 }
 
 @Composable
 fun MyComposable() {
-    val activity = LocalView.current.context as Activity
-    val backgroundArgb = Color(12, 12, 12).toArgb()
-    activity.window.statusBarColor = backgroundArgb
-    LoginScreen()
+
 }
